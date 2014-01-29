@@ -11,6 +11,9 @@
 (define CHARS
   (shuffle (string->list "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")))
 
+(define (text* s fs c)
+  (text/font s fs c #f 'modern 'normal 'normal #f))
+
 (define (gradient start end steps i)
   (+ start (* (- end start) (/ (- steps i) steps))))
 (define (radius i n)
@@ -71,11 +74,11 @@
 
 (define mouse-legend
   (begin
-    (beside (text "Once" FS "green")
-            (text "Twice" FS "blue")
-            (text "     " FS "black")
-            (text "Drag" FS "orange")
-            (text "To" FS "black"))
+    (beside (text* "Once" FS "green")
+            (text* "Twice" FS "blue")
+            (text* "     " FS "black")
+            (text* "Drag" FS "orange")
+            (text* "To" FS "black"))
     empty-image))
 
 (define state-draw
@@ -83,13 +86,13 @@
    [(state:start key-n mouse-n)
     (overlay/align
      "center" "middle"
-     (text "Press Any Key or Click to Start" FS "black")
+     (text* "Press Any Key or Click to Start" FS "black")
      (empty-scene W H))]
    [(state:key _ typed to-type _)
     (define result:key->image
       (match-lambda
        [(result:key a e _)
-        (text (string a) (* 2 FS)
+        (text* (string a) (* 2 FS)
               (if (char=? a e)
                 "green"
                 "red"))]))
@@ -98,7 +101,7 @@
      (/ W 2) (* H 3/4)
      "right" "middle"
      (place-image/align
-      (text (list->string to-type) (* 2 FS) "black")
+      (text* (list->string to-type) (* 2 FS) "black")
       (/ W 2) (* H 1/4)
       "left" "middle"
       (empty-scene W H)))]
@@ -141,13 +144,13 @@
      "left" "top"
      (above/align
       "left"
-      (text (format "Typing") FS "black")
-      (text (format "            Keys: ~a" (length correct-ks)) FS "black")
-      (text (format "        Mistakes: ~a" (length mistakes-ks)) FS "black")
-      (text (format "    Average Time: ~ams" avg-time-ks) FS "black")
-      (text (format "Mouse") FS "black")
-      (text (format "           Tasks: ~a" (length ms)) FS "black")
-      (text (format "    Average Time: ~ams" avg-time-ms) FS "black"))
+      (text* (format "Typing") FS "black")
+      (text* (format "            Keys: ~a" (length correct-ks)) FS "black")
+      (text* (format "        Mistakes: ~a" (length mistakes-ks)) FS "black")
+      (text* (format "    Average Time: ~ams" avg-time-ks) FS "black")
+      (text* (format "Mouse") FS "black")
+      (text* (format "           Tasks: ~a" (length ms)) FS "black")
+      (text* (format "    Average Time: ~ams" avg-time-ms) FS "black"))
      (empty-scene W H))]
    [(state:end)
     (empty-scene W H)]))
@@ -217,4 +220,4 @@
 
 
 (module+ main
-  (go! 25 10))
+  (go! 26 10))
